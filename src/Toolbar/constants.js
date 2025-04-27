@@ -107,7 +107,7 @@ export const sources = [
     data: [
       { id: 10, name: 'ReactJS' },
       { id: 11, name: 'JavaScript' },
-      { id: 12, name: 'Typescript' }
+      { id: 12, name: 'Typescript' },
     ],
   },
 ];

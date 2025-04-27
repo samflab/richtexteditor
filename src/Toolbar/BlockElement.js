@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft, faCommentNodes } from '@fortawesome/free-solid-svg-icons';
+
 const BlockElement = (props) => {
   const { setSelectedElement } = props;
+
   const addCommonEvents = (el) => {
     el.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -13,6 +15,7 @@ const BlockElement = (props) => {
       e.dataTransfer.effectAllowed = 'move';
     });
   };
+
   const insertCustomEditableBlock = (type) => {
     const editor = document.getElementById('editor');
     const selection = window.getSelection();
@@ -27,24 +30,10 @@ const BlockElement = (props) => {
     wrapper.className = `custom-block custom-${type}`;
     wrapper.dataset.id = id;
     wrapper.dataset.type = type;
-    
+
     let editableContent = document.createElement('div');
     editableContent.contentEditable = true; // only inner part editable
     editableContent.className = 'custom-block-content';
-    editableContent.innerText =
-      type === 'code' ? 'Type code here...' : 'Type quote here...';
-    editableContent.addEventListener('click', () => {
-      editableContent.innerText = '';
-    });
-    editableContent.addEventListener('onchange', () => {
-      if (
-        ((type === 'quote' || type === 'callout') &&
-          editableContent.innerText === 'Type quote here...') ||
-        (type === 'code' && editableContent.innerText === 'Type code here...')
-      ) {
-        editableContent.innerText = '';
-      }
-    });
 
     wrapper.appendChild(editableContent);
 
@@ -58,6 +47,30 @@ const BlockElement = (props) => {
     newRange.collapse(true);
     selection.removeAllRanges();
     selection.addRange(newRange);
+
+    editor.addEventListener('keydown', (e) => {
+      // If Backspace is pressed
+      if (e.key === 'Backspace') {
+        const selection = window.getSelection();
+        const focusedElement = selection.focusNode
+          ? selection.focusNode.parentElement
+          : null;
+
+        // If cursor is inside a block and it is empty
+        if (
+          focusedElement &&
+          focusedElement.classList.contains('custom-block')
+        ) {
+          const editableContent = focusedElement.querySelector(
+            '.custom-block-content'
+          );
+          if (editableContent) {
+            e.preventDefault();
+            focusedElement.remove(); // Remove the block if empty
+          }
+        }
+      }
+    });
   };
 
   return (

@@ -52545,13 +52545,6 @@ const BlockElement = (props)=>{
         let editableContent = document.createElement('div');
         editableContent.contentEditable = true; // only inner part editable
         editableContent.className = 'custom-block-content';
-        editableContent.innerText = type === 'code' ? 'Type code here...' : 'Type quote here...';
-        editableContent.addEventListener('click', ()=>{
-            editableContent.innerText = '';
-        });
-        editableContent.addEventListener('onchange', ()=>{
-            if ((type === 'quote' || type === 'callout') && editableContent.innerText === 'Type quote here...' || type === 'code' && editableContent.innerText === 'Type code here...') editableContent.innerText = '';
-        });
         wrapper.appendChild(editableContent);
         addCommonEvents(wrapper);
         range.insertNode(wrapper);
@@ -52561,6 +52554,21 @@ const BlockElement = (props)=>{
         newRange.collapse(true);
         selection.removeAllRanges();
         selection.addRange(newRange);
+        editor.addEventListener('keydown', (e)=>{
+            // If Backspace is pressed
+            if (e.key === 'Backspace') {
+                const selection = window.getSelection();
+                const focusedElement = selection.focusNode ? selection.focusNode.parentElement : null;
+                // If cursor is inside a block and it is empty
+                if (focusedElement && focusedElement.classList.contains('custom-block')) {
+                    const editableContent = focusedElement.querySelector('.custom-block-content');
+                    if (editableContent) {
+                        e.preventDefault();
+                        focusedElement.remove(); // Remove the block if empty
+                    }
+                }
+            }
+        });
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "toolbar-container custom-inline-dropdown",
@@ -52574,12 +52582,12 @@ const BlockElement = (props)=>{
                     icon: (0, _freeSolidSvgIcons.faQuoteLeft)
                 }, void 0, false, {
                     fileName: "src/Toolbar/BlockElement.js",
-                    lineNumber: 71,
+                    lineNumber: 84,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Toolbar/BlockElement.js",
-                lineNumber: 65,
+                lineNumber: 78,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -52590,7 +52598,7 @@ const BlockElement = (props)=>{
                 children: '</>'
             }, void 0, false, {
                 fileName: "src/Toolbar/BlockElement.js",
-                lineNumber: 73,
+                lineNumber: 86,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -52602,18 +52610,18 @@ const BlockElement = (props)=>{
                     icon: (0, _freeSolidSvgIcons.faCommentNodes)
                 }, void 0, false, {
                     fileName: "src/Toolbar/BlockElement.js",
-                    lineNumber: 87,
+                    lineNumber: 100,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Toolbar/BlockElement.js",
-                lineNumber: 81,
+                lineNumber: 94,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Toolbar/BlockElement.js",
-        lineNumber: 64,
+        lineNumber: 77,
         columnNumber: 5
     }, undefined);
 };
