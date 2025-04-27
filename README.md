@@ -1,7 +1,7 @@
 # **Rich Text Editor Documentation**
 
 ## **Introduction**
-This document provides a comprehensive overview of the architecture, state management approach, and accessibility considerations for a custom-rich text editor built to support text formatting, inline components, custom block elements, undo/redo functionality, a robust clipboard system, and a mention system with preview cards. The editor integrates text editing features with interactive elements to provide a polished user experience.
+This document provides a comprehensive overview of the architecture, state management approach, and accessibility considerations for a custom-rich text editor built to support text formatting, inline components, custom block elements, undo/redo functionality and a mention system with preview cards. The editor integrates text editing features with interactive elements to provide a polished user experience.
 
 ---
 
@@ -12,10 +12,14 @@ The editor is divided into several components, each responsible for managing spe
 
 - **Editor**: The main container component that holds the content-editable area and integrates with all other functionality.
 - **Toolbar**: A separate component that houses the controls for text formatting, inline components, mentions, lists, etc.
+- **Text Formatting**: A component that is specific to font changes like font-style, font-size, bold, italics, underline and strikethrough.
+- **Color Formatting**: For modifying the text with the given colour picker for the text foreground and background colours.
+- **Identation**: A component that allows aligning a text as left, right and centre align.
+- **Highlight Text**: Highlight the content-editable text with yellow and pink colour.
+- **Lists with Custom Identation**: A component that has the capability for ordered and unordered list with custom formatting.
 - **Inline Components**: Custom components such as quotes, code blocks, and callouts that users can insert and manipulate within the text.
 - **Undo/Redo System**: A custom hook that manages the undo and redo functionality, preserving the editor's state.
 - **Mention System**: A system to handle @mentions with fuzzy search across data sources.
-- **Clipboard System**: A robust clipboard handling system to ensure proper formatting during copy-paste operations and content transformations.
 - **State Management**: The entire application's state is managed in a centralized manner, ensuring smooth communication between components.
 
 ### **1.2 Key Libraries and Tools**
@@ -23,12 +27,11 @@ The editor is divided into several components, each responsible for managing spe
 - **ContentEditable**: A native HTML element used to create a rich text input area.
 - **useState & useEffect**: React hooks for managing state and lifecycle events.
 - **useRef**: Used to track the editor and inline components' references.
-- **Redux** (optional): For more complex state management across large parts of the app.
 - **Fuzzy Search**: A custom search solution for the @mention system to support fuzzy matching across data sources.
 
 ### **1.3 Customization and Styling**
 - **CSS-in-JS**: Used for dynamic styling based on editor state (such as active formatting and highlighted text).
-- **CSS Grid/Flexbox**: For the layout of the toolbar and the content area, ensuring responsiveness and scalability.
+- **CSS Flexbox**: For the layout of the toolbar and the content area, ensuring responsiveness and scalability.
 - **SVG Icons**: Custom icons for interactive elements like block quotes, code blocks, etc.
 
 ---
@@ -36,7 +39,7 @@ The editor is divided into several components, each responsible for managing spe
 ## **2. State Management Approach**
 
 ### **2.1 Centralized State**
-- **Editor State**: All user content is stored as HTML or JSON in the state, which is managed in the `Editor` component using `useState` or a more complex state management solution like Redux for scalability.
+- **Editor State**: All user content is stored as HTML or JSON in the state, which is managed in the `Editor` component using `useState`.
 - **Action States**: Specific states are tracked for text formatting (bold, italic, underline), selections, cursor position, and undo/redo history.
 - **Undo/Redo State**: Each action that modifies the content (like typing or formatting) is pushed into an undo stack. Redo actions are handled by storing the current state in a redo stack when an undo operation occurs.
 
@@ -49,14 +52,14 @@ The editor is divided into several components, each responsible for managing spe
 - **Drag-and-Drop**: Inline elements are movable within the editor, with the content flow automatically adjusted to maintain the layout. This is done using drag-and-drop handlers that modify the component's position and update the editor's state accordingly.
 
 ### **2.4 Keyboard Shortcuts**
-- **Key Events**: Key events like `Cmd+Shift+8` for lists, `Cmd+B` for bold, and `Tab` for indentation are mapped to specific actions in the editor state. These events are handled via `onKeyDown` listeners on the `contentEditable` element.
+- **Key Events**: Key events like `Cmd+Shift+7` for lists, `Cmd+B` for bold, and `Tab` for indentation are mapped to specific actions in the editor state. These events are handled via `onKeyDown` listeners on the `contentEditable` element.
 
 ---
 
 ## **3. Accessibility Considerations**
 
 ### **3.1 Keyboard Navigation**
-- **Focus Management**: Interactive elements (such as buttons for formatting or dragging blocks) are focusable, ensuring users can navigate through them using the keyboard. The `tabindex` attribute is used to make elements focusable.
+- **Focus Management**: Interactive elements (such as buttons for formatting or dragging blocks) are focusable, ensuring users can navigate through them using the keyboard.
 - **Arrow Key Navigation**: Users can navigate through interactive blocks (such as lists, mentions, and custom components) using arrow keys, and the selection follows the cursor without breaking the text flow.
 - **Access to Formatting Controls**: Each text formatting button (bold, italic, etc.) has a descriptive `aria-label` to ensure that screen readers can interpret its functionality.
 
@@ -73,7 +76,7 @@ The editor is divided into several components, each responsible for managing spe
 
 ### **3.5 Color Contrast and Font Accessibility**
 - **High Contrast**: Text formatting features and toolbar buttons are designed with sufficient color contrast for accessibility. Colors are chosen to comply with WCAG 2.1 guidelines for accessible design.
-- **Font Sizes**: A range of font sizes is supported, allowing users to adjust text size to improve readability.
+- **Font Sizes**: A range of font sizes is supported, allowing users to adjust text size to improve readability. In total, the Lighthouse accessibility score comes up to be 100%.
 
 ---
 
@@ -81,7 +84,7 @@ The editor is divided into several components, each responsible for managing spe
 
 ### **4.1 Text Formatting**
 - **Bold, Italic, Underline, and Headings**: These are handled through simple button interactions in the toolbar, updating the selection style using contenteditable's `document.execCommand` or `Range` API.
-- **Nested Lists**: Support for nested lists with custom indentation behavior is managed by adjusting the list's styling and handling the "Tab" and "Shift+Tab" keyboard shortcuts.
+- **Nested Lists**: Support for nested lists with custom indentation behavior is managed by adjusting the list's styling and handling the "Tab" for adding the space and "Shift+Tab" for reducing the space.
 
 ### **4.2 Inline Component System**
 - **Highlight and Update**: Users can highlight text and update it with a dropdown for adding links, mentions, or other interactive elements.
