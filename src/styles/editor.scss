@@ -1,0 +1,235 @@
+.rich-text-editor-container {
+  padding: 1.25rem;
+  font-family: Arial, Helvetica, sans-serif;
+  .editor-wrapper {
+    min-height: 18.75rem;
+    border: 1px solid #ccc;
+    padding: 0.625rem;
+    border-radius: 5px;
+    background-color: white;
+    .inline-link {
+      cursor: pointer;
+    }
+    .inline-button {
+      padding: 0.5rem 1.5rem;
+      background-color: rgb(57, 56, 56);
+      color: white;
+      border-radius: 5px;
+      margin: 0rem 1rem;
+      cursor: pointer;
+    }
+    .inline-badge {
+      font-size: 0.5rem;
+
+      position: absolute;
+
+      background-color: rgb(57, 56, 56);
+      color: white;
+      padding: 0.2rem 0.4rem;
+      border-radius: 50px;
+    }
+
+    .custom-quote {
+      background-color: #eef6ff;
+      padding: 1rem;
+      border-radius: 5px;
+      color: rgb(25, 25, 25);
+    }
+    .custom-block {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 8px 0;
+      background-color: #f9f9f9;
+    }
+
+    .custom-code {
+      background-color: #f5f5f5;
+      font-family: 'Courier New', monospace;
+    }
+
+    .custom-block-content {
+      outline: none;
+      min-height: 20px;
+    }
+  }
+
+  .toolbar-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #cfd3d5;
+    .toolbar-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-right: 1rem;
+      border-right: 1px solid #cfd3d5;
+      &:nth-child(1) {
+        padding-left: 0;
+      }
+      &:last-child {
+        border-right: none;
+      }
+      &.custom-inline-dropdown {
+        padding-left: 1rem;
+      }
+      .bold {
+        font-weight: 600;
+      }
+
+      .italics {
+        font-style: italic;
+      }
+
+      .underline {
+        text-decoration: underline;
+      }
+
+      .strike {
+        text-decoration: line-through;
+      }
+
+      .text-color-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .color-picker-text,
+      .color-picker-bg {
+        background-color: transparent;
+        border: none;
+        height: 2rem;
+        width: 2rem;
+        border-radius: 5px;
+      }
+
+      .custom-inline-dropdow {
+        select {
+          width: 10rem;
+        }
+      }
+      select {
+        border-color: #cfd3d5;
+        border-radius: 5px;
+        height: 2rem;
+      }
+
+      label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      .font-style-dropdown {
+        width: 10rem;
+      }
+
+      .font-size-dropdown {
+        width: 3rem;
+      }
+
+      .format-btn {
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-left: 0.5rem;
+      }
+    }
+    .color-format {
+      margin-left: 1rem;
+    }
+    .highlight-yellow,
+    .highlight-lightpink {
+      height: 1.5rem;
+      width: 1.5rem;
+      align-self: center;
+      cursor: pointer;
+      font-size: 0px;
+      color: yellow;
+    }
+
+    .highlight-toolbar {
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.5rem;
+      border-right: 1px solid #cfd3d5;
+
+      .highlight-lightpink {
+        background-color: #c2185b;
+        color: yellow;
+      }
+
+      .highlight-yellow {
+        background-color: yellow;
+        color: yellow;
+      }
+    }
+  }
+}
+
+.mention-card {
+  display: inline;
+  background-color: #e0f7fa;
+  color: #00796b;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  &:hover::after {
+    content: 'View Profile';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 100;
+    margin-top: 4px;
+  }
+}
+
+.mention-dropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.mention-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.mention-span {
+  background-color: #daf0ff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .toolbar-wrapper {
+    gap: 1rem;
+  }
+}
